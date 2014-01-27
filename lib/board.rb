@@ -10,7 +10,7 @@ class Board
 
   def create_field
     field = {}
-    keys = ("a".."i").to_a << "l"
+    keys = ("a".."j").to_a
     keys.each { |k| (1..10).each {|no| field[k+no.to_s] = ''}  }
     field 
   end
