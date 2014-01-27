@@ -39,8 +39,9 @@ class Player
     starting_point.slice(/\d+/).to_i + size - 1 <= 10
   end
 
-  def hit_wall_on_right?(n)
-    return starting_point.slice(0) 
+  def hit_wall_on_right?(size)
+    return false if size == 1
+    return "j".bytes.first - starting_point.slice(0).bytes.first + 1 <= size 
   end
 
 

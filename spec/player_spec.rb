@@ -19,6 +19,11 @@ describe Player do
 		expect(player.hit_wall_on_bottom?(2)).to be_true
 	end
 
+	it "should check if ship hits right of board" do
+		player.stub(:starting_point).and_return("j5")
+		expect(player.hit_wall_on_right?(1)).to be_false
+		expect(player.hit_wall_on_right?(2)).to be_true
+	end
 
 	# it "should shoot at the opponents board" do  
 	# 	board = double :board
