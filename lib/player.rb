@@ -3,7 +3,16 @@ class Player
   #
   # You will have to create a board in there and randomize the
   # positioning of your ships on the board.
-  def initialize name
+  
+  attr_reader :name
+
+  def initialize(name, board = {})
+    @name = name
+    @board ||= board
+  end
+
+  def board(board)
+    @board = board.rows
   end
   
   # Tells us if there are still ships that have not been hit
