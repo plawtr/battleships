@@ -1,8 +1,21 @@
 class Board
+ 
   def initialize player
     @player = player
+
+
+    @field = create_field
+
   end
   
+  def create_field
+    field = {}
+    keys = ("a".."i").to_a << "l"
+    keys.each { |k| (1..10).each {|no| field[k+no.to_s] = ''}  }
+    field 
+  end
+
+
   def owner
     @player.name
   end
