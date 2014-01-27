@@ -11,7 +11,6 @@ class Player
   def initialize(name)
     @name = name
     @board = Board.new(self)
-    # self.board = board.fetch(:board, DEFAULT)
 
   end
 
@@ -19,29 +18,30 @@ class Player
     @board
   end
 
-  def board_randomize(board)
-    # positions = []
-    i = 0
-    while i < SHIPS[i]
-      # positions << @board[rand(0..9)].sample(ships[i])  # @board[rand(0..9)].sample(ships[i]).map { |x| x.replace("s")}
-      s = starting_point
+  # def board_randomize(board)
+  #   i = 0
+  #   while i < SHIPS[i]
+  #     s = starting_point
 
 
 
 
-      i += 1
-    end
-  end
+  #     i += 1
+  #   end
+  # end
 
   def starting_point
-    board.field.keys[rand(0..99)]
+    board.field.keys.sample
   end
 
-  def hit_wall?
-
-    
-
+  def hit_wall_on_bottom?(n) 
+    return starting_point.slice(/\d+/).to_i + n < 10
   end
+
+  def hit_wall_on_right?(n)
+    return starting_point.slice(0) 
+  end
+
 
   
   # Tells us if there are still ships that have not been hit
