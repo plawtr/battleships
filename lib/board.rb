@@ -1,5 +1,7 @@
 class Board
  
+ attr_accessor :field
+
   def initialize player
     @player = player
     @field = create_field
@@ -13,10 +15,6 @@ class Board
     field 
   end
 
-  def field
-    @field
-  end
-
   def owner
     @player.name
   end
@@ -25,7 +23,7 @@ class Board
   # hitting a ship or
   # just hitting the water.
   def register_shot at_coordinates  
-    @field[at_coordinates.downcase] = "o"
+    @field[at_coordinates.downcase] == "s" ? @field[at_coordinates.downcase] = "x" : @field[at_coordinates.downcase] = "o"
     return rows
   end
   
