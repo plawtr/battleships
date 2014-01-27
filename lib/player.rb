@@ -33,13 +33,18 @@ class Player
     return "j".bytes.first - start.slice(0).bytes.first + 1 <= size 
   end
 
-  def intercepts_bottom?(size)
+  def intersects_bottom?(size)
     return true if board.field[start] == "s" 
     return false if size == 1 && board.field[start] == ""
-    !((0..size).map{|x| board.field[start.slice(0)+(start.slice(1).to_i+x).to_s] }.all?{|x| x.empty? })
+    !((0..size-1).map{|x| board.field[start.slice(0)+(start.slice(1).to_i+x).to_s] }.all?{|x| x.empty? })
   end
 
-  # TODO - intercepts_right?
+  def intersects_right?(size)
+    return true if board.field[start] == "s" 
+    return false if size == 1 && board.field[start] == ""
+    !((0..size-1).map{|x| board.field[(start.slice(0).ord+x).chr+start.slice(1)] }.all?{|x| x.empty? }) 
+  end
+  # TODO - intersects_right?
 
 
   # def place_ship(size)
