@@ -29,18 +29,18 @@ describe Player do
 		expect(player.hit_wall_on_right?(2)).to be_true
 	end
 
-	it "should check if the ship intersects other ships to the bottom" do
+	it "should check if the ship intersect other ships to the bottom" do
 		player.start = "j5"
-		expect(player.intersects_bottom?(5)).to be_false
+		expect(player.intersect_bottom?(5)).to be_false
 		player.board.field["j6"] = "s"
-		expect(player.intersects_bottom?(5)).to be_true
+		expect(player.intersect_bottom?(5)).to be_true
 	end
 
 	it "should check if the ship intersects other ships to the right" do
 		player.start = "a5"
-		expect(player.intersects_right?(5)).to be_false
+		expect(player.intersect_right?(5)).to be_false
 		player.board.field["b5"] = "s"
-		expect(player.intersects_right?(5)).to be_true
+		expect(player.intersect_right?(5)).to be_true
 	end
 
 	it "should place 5 size ship on the board vertically" do

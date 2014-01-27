@@ -33,13 +33,13 @@ class Player
     return "j".bytes.first - start.slice(0).bytes.first + 1 <= size 
   end
 
-  def intersects_bottom?(size)
+  def intersect_bottom?(size)
     return true if board.field[start] == "s" 
     return false if size == 1 && board.field[start] == ""
     !((0..size-1).map{|x| board.field[start.slice(0)+(start.slice(1).to_i+x).to_s] }.all?{|x| x.empty? })
   end
 
-  def intersects_right?(size)
+  def intersect_right?(size)
     return true if board.field[start] == "s" 
     return false if size == 1 && board.field[start] == ""
     !((0..size-1).map{|x| board.field[(start.slice(0).ord+x).chr+start.slice(1)] }.all?{|x| x.empty? }) 
@@ -51,22 +51,20 @@ class Player
     place_ship(size)
   end
 
-
   def place_ship(size)
-    try_again if board.field[start] == "s" 
+    try_again(size) if board.field[start] == "s" 
     board.field[start] = "s" if size == 1 
 
-    if direction == "horizontal" 
-      try_again(size) if hit_wall_on_right?(size) || intersects_right?(size)
-    (0..size-1).each{|x| board.field[(start.slice(0).ord+x).chr+start.slice(1)] = "s" }
-
     # check intercepts_right? hit wall right? if ok, place, else new starting postiion, new direction
+    if direction == "horizontal" 
+      try_again(size) if hit_wall_on_right?(size) || intersect_right?(size)
+      (0..size-1).each{|x| board.field[(start.slice(0).ord+x).chr+start.slice(1)] = "s" }
     end
-    if direction == "vertical" 
-      try_again(size) if hit_wall_on_bottom?(size) || intersects_bottom?(size)
-    (0..size-1).map{|x| board.field[start.slice(0)+(start.slice(1).to_i+x).to_s] = "s" }
 
-    # check intercepts bottom? hit wall bottom? if ok, place. else new postion, direction
+    # check intercepts bottom? hit wall bottom? if ok, place. else new postion, direction    
+    if direction == "vertical" 
+      try_again(size) if hit_wall_on_bottom?(size) || intersect_bottom?(size)
+      (0..size-1).each{|x| board.field[start.slice(0)+(start.slice(1).to_i+x).to_s] = "s" }
     end
   end
   
