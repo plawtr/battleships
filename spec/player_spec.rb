@@ -13,6 +13,11 @@ describe Player do
 		expect((board.field.keys).include?(player.starting_point)).to be_true
 	end
 
+	it "should choose random direction for the placement of the ships" do
+		expect((["vertical", "horizontal"]).include?(player.direction_choice)).to be_true
+	end
+
+
 	it "should check if ship hits bottom of board" do
 		player.start = "j9"
 		expect(player.hit_wall_on_bottom?(1)).to be_false

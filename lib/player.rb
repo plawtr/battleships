@@ -15,19 +15,6 @@ class Player
     direction = direction_choice
   end
 
-
-  # def board_randomize(board)
-  #   i = 0
-  #   while i < SHIPS[i]
-  #     s = starting_point
-
-
-
-
-  #     i += 1
-  #   end
-  # end
-
   def starting_point
     board.field.keys.sample
   end
@@ -55,10 +42,10 @@ class Player
   # TODO - intercepts_right?
 
 
-  def place_ship(size)
-    if direction == "horizontal" # check intercepts_right? hit wall right? if ok, place, else new starting postiion, new direction
-    if direction == "vertical" # check intercepts bottom? hit wall bottom? if ok, place. else new postion, direction
-  end
+  # def place_ship(size)
+  #   if direction == "horizontal" # check intercepts_right? hit wall right? if ok, place, else new starting postiion, new direction
+  #   if direction == "vertical" # check intercepts bottom? hit wall bottom? if ok, place. else new postion, direction
+  # end
   
   # Tells us if there are still ships that have not been hit
   # on her/his board.
