@@ -45,5 +45,6 @@ class Board
   # elements each (as in rows) replacing the ships with an empty
   # string ('') so that your opponent cannot see your ships.
   def opponent_view
+    @field.values.collect{|x| x=="s"? x = "" : x }.each_slice(10).map{|i| i}
   end
 end
