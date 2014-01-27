@@ -2,8 +2,6 @@ class Board
  
   def initialize player
     @player = player
-
-
     @field = create_field
 
   end
@@ -36,6 +34,10 @@ class Board
   # that you have
   # four different types
   def rows
+    field = @field.dup
+    a = [[]]*10
+    (0..9).each {|i| (0..9).each{|j| a[i][j] = field.shift.last }}
+    return a
   end
   
   # This method returns an array containing 10 arrays with 10
