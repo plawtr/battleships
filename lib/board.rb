@@ -23,8 +23,9 @@ class Board
   # hitting a ship or
   # just hitting the water.
   def register_shot at_coordinates  
+    raise "Invalid coordinates" unless @field.keys.include?(at_coordinates)
     @field[at_coordinates.downcase] == "s" ? @field[at_coordinates.downcase] = "x" : @field[at_coordinates.downcase] = "o"
-    return rows
+
   end
   
   # This method returns an array containing 10 arrays with 10 
