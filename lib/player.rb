@@ -6,17 +6,15 @@ class Player
   
   SHIPS = [5, 4, 3, 2, 2, 1, 1]
 
-  attr_reader :name
+  attr_accessor :name, :board, :start, :direction
 
   def initialize(name)
     @name = name
     @board = Board.new(self)
-
+    start = starting_point
+    direction = direction_choice
   end
 
-  def board
-    @board
-  end
 
   # def board_randomize(board)
   #   i = 0
@@ -34,17 +32,33 @@ class Player
     board.field.keys.sample
   end
 
+  def direction_choice
+    ["vertical", "horizontal"].sample
+  end
+
   def hit_wall_on_bottom?(size) 
     return false if size == 1 
-    starting_point.slice(/\d+/).to_i + size - 1 <= 10
+    start.slice(/\d+/).to_i + size - 1 <= 10
   end
 
   def hit_wall_on_right?(size)
     return false if size == 1
-    return "j".bytes.first - starting_point.slice(0).bytes.first + 1 <= size 
+    return "j".bytes.first - start.slice(0).bytes.first + 1 <= size 
   end
 
+  def intercepts_bottom?(size)
+    return true if board.field[start] == "s" 
+    return false if size == 1 && board.field[start] == ""
+    !((0..size).map{|x| board.field[start.slice(0)+(start.slice(1).to_i+x).to_s] }.all?{|x| x.empty? })
+  end
 
+  # TODO - intercepts_right?
+
+
+  def place_ship(size)
+    if direction == "horizontal" # check intercepts_right? hit wall right? if ok, place, else new starting postiion, new direction
+    if direction == "vertical" # check intercepts bottom? hit wall bottom? if ok, place. else new postion, direction
+  end
   
   # Tells us if there are still ships that have not been hit
   # on her/his board.
