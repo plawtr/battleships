@@ -34,8 +34,9 @@ class Player
     board.field.keys.sample
   end
 
-  def hit_wall_on_bottom?(n) 
-    return starting_point.slice(/\d+/).to_i + n < 10
+  def hit_wall_on_bottom?(size) 
+    return false if size == 1 
+    starting_point.slice(/\d+/).to_i + size - 1 <= 10
   end
 
   def hit_wall_on_right?(n)
