@@ -25,7 +25,7 @@ class Player
 
   def hit_wall_on_bottom?(size) 
     return false if size == 1 
-    start.slice(/\d+/).to_i + size - 1 <= 10
+    start.slice(/\d+/).to_i + size - 1 > 10
   end
 
   def hit_wall_on_right?(size)
@@ -52,18 +52,18 @@ class Player
   end
 
   def place_ship(size)
-    try_again(size) if board.field[start] == "s" 
+    return if board.field[start] == "s" 
     board.field[start] = "s" if size == 1 
 
     # check intercepts_right? hit wall right? if ok, place, else new starting postiion, new direction
     if direction == "horizontal" 
-      try_again(size) if hit_wall_on_right?(size) || intersect_right?(size)
+      return if hit_wall_on_right?(size) || intersect_right?(size)
       (0..size-1).each{|x| board.field[(start.slice(0).ord+x).chr+start.slice(1)] = "s" }
     end
 
     # check intercepts bottom? hit wall bottom? if ok, place. else new postion, direction    
     if direction == "vertical" 
-      try_again(size) if hit_wall_on_bottom?(size) || intersect_bottom?(size)
+      return if hit_wall_on_bottom?(size) || intersect_bottom?(size)
       (0..size-1).each{|x| board.field[start.slice(0)+(start.slice(1).to_i+x).to_s] = "s" }
     end
   end
