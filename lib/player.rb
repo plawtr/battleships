@@ -44,13 +44,31 @@ class Player
     return false if size == 1 && board.field[start] == ""
     !((0..size-1).map{|x| board.field[(start.slice(0).ord+x).chr+start.slice(1)] }.all?{|x| x.empty? }) 
   end
-  # TODO - intersects_right?
+
+  def try_again(size)
+    start = starting_point
+    direction = direction_choice
+    place_ship(size)
+  end
 
 
-  # def place_ship(size)
-  #   if direction == "horizontal" # check intercepts_right? hit wall right? if ok, place, else new starting postiion, new direction
-  #   if direction == "vertical" # check intercepts bottom? hit wall bottom? if ok, place. else new postion, direction
-  # end
+  def place_ship(size)
+    try_again if board.field[start] == "s" 
+    board.field[start] = "s" if size == 1 
+
+    if direction == "horizontal" 
+      try_again(size) if hit_wall_on_right?(size) || intersects_right?(size)
+    (0..size-1).each{|x| board.field[(start.slice(0).ord+x).chr+start.slice(1)] = "s" }
+
+    # check intercepts_right? hit wall right? if ok, place, else new starting postiion, new direction
+    end
+    if direction == "vertical" 
+      try_again(size) if hit_wall_on_bottom?(size) || intersects_bottom?(size)
+    (0..size-1).map{|x| board.field[start.slice(0)+(start.slice(1).to_i+x).to_s] = "s" }
+
+    # check intercepts bottom? hit wall bottom? if ok, place. else new postion, direction
+    end
+  end
   
   # Tells us if there are still ships that have not been hit
   # on her/his board.
