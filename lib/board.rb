@@ -5,7 +5,7 @@ class Board
     @field = create_field
 
   end
-  
+
   def create_field
     field = {}
     keys = ("a".."i").to_a << "l"
@@ -13,6 +13,9 @@ class Board
     field 
   end
 
+  def field
+    @field
+  end
 
   def owner
     @player.name
@@ -22,6 +25,8 @@ class Board
   # hitting a ship or
   # just hitting the water.
   def register_shot at_coordinates  
+    @field[at_coordinates.downcase] = "o"
+    return rows
   end
   
   # This method returns an array containing 10 arrays with 10 
@@ -34,10 +39,7 @@ class Board
   # that you have
   # four different types
   def rows
-    field = @field.dup
-    a = [[]]*10
-    (0..9).each {|i| (0..9).each{|j| a[i][j] = field.shift.last }}
-    return a
+    @field.values.each_slice(10).map{|i| i}
   end
   
   # This method returns an array containing 10 arrays with 10
