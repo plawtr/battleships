@@ -54,7 +54,10 @@ class Player
   def place_ship(size)
 
     return false if board.field[start] == "s" 
-    board.field[start] = "s" if size == 1 
+    if size == 1
+      board.field[start] = "s" 
+      return true
+    end 
 
     # check intercepts_right? hit wall right? if ok, place, else new starting postiion, new direction
     if direction == "horizontal" 
@@ -67,6 +70,8 @@ class Player
       return false if hit_wall_on_bottom?(size) || intersect_bottom?(size)
       (0..size-1).each{|x| board.field[start.slice(0)+(start.slice(1).to_i+x).to_s] = "s" }
     end
+
+    return true
 
   end
   
