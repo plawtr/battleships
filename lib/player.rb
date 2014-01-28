@@ -11,12 +11,12 @@ class Player
   def initialize(name)
     @name = name
     @board = Board.new(self)
-    start = starting_point
-    direction = direction_choice
+    @start = starting_point
+    @direction = direction_choice
   end
 
   def starting_point
-    board.field.keys.sample
+    self.board.field.keys.sample
   end
 
   def direction_choice
@@ -34,41 +34,40 @@ class Player
   end
 
   def intersect_bottom?(size)
-    return true if board.field[start] == "s" 
-    return false if size == 1 && board.field[start] == ""
-    !((0..size-1).map{|x| board.field[start.slice(0)+(start.slice(1).to_i+x).to_s] }.all?{|x| x.empty? })
+    return true if self.board.field[start] == "s" 
+    return false if size == 1 && self.board.field[start] == ""
+    !((0..size-1).map{|x| self.board.field[start.slice(0)+(start.slice(/\d+/).to_i+x).to_s] }.all?{|x| x.empty? })
   end
 
   def intersect_right?(size)
-    return true if board.field[start] == "s" 
-    return false if size == 1 && board.field[start] == ""
-    !((0..size-1).map{|x| board.field[(start.slice(0).ord+x).chr+start.slice(1)] }.all?{|x| x.empty? }) 
+    return true if self.board.field[start] == "s" 
+    return false if size == 1 && self.board.field[start] == ""
+    !((0..size-1).map{|x| self.board.field[(start.slice(0).ord+x).chr+start.slice(/\d+/)] }.all?{|x| x.empty? }) 
   end
 
   def try_again(size)
-    start = starting_point
-    direction = direction_choice
+
     place_ship(size)
   end
 
   def place_ship(size)
 
-    return false if board.field[start] == "s" 
+    return false if self.board.field[start] == "s" 
     if size == 1
-      board.field[start] = "s" 
+      self.board.field[start] = "s" 
       return true
     end 
 
     # check intercepts_right? hit wall right? if ok, place, else new starting postiion, new direction
     if direction == "horizontal" 
       return false if hit_wall_on_right?(size) || intersect_right?(size)
-      (0..size-1).each{|x| board.field[(start.slice(0).ord+x).chr+start.slice(1)] = "s" }
+      (0..size-1).each{|x| self.board.field[(start.slice(0).ord+x).chr+start.slice(1)] = "s" }
     end
 
     # check intercepts bottom? hit wall bottom? if ok, place. else new postion, direction    
     if direction == "vertical" 
       return false if hit_wall_on_bottom?(size) || intersect_bottom?(size)
-      (0..size-1).each{|x| board.field[start.slice(0)+(start.slice(1).to_i+x).to_s] = "s" }
+      (0..size-1).each{|x| self.board.field[start.slice(0)+(start.slice(/\d+/).to_i+x).to_s] = "s" }
     end
 
     return true
@@ -76,10 +75,16 @@ class Player
   end
   
   def place_all_ships
-    # SHIPS.each do |size| 
-    #   while !place_ship(size) 
-    #     try_again(size) 
-    #   end
+    SHIPS.each do |size| 
+      puts "placing #{size}"
+      n = 0 
+      while !place_ship(size) && n<100
+        puts "placing #{size}"
+        puts "placed #{self.board.field.values.select{|x| x == "s"}.size}"
+        n+=1
+        start = starting_point
+        direction = direction_choice 
+      end
     end
   end
 
