@@ -52,22 +52,33 @@ class Player
   end
 
   def place_ship(size)
-    return if board.field[start] == "s" 
+
+    return false if board.field[start] == "s" 
     board.field[start] = "s" if size == 1 
 
     # check intercepts_right? hit wall right? if ok, place, else new starting postiion, new direction
     if direction == "horizontal" 
-      return if hit_wall_on_right?(size) || intersect_right?(size)
+      return false if hit_wall_on_right?(size) || intersect_right?(size)
       (0..size-1).each{|x| board.field[(start.slice(0).ord+x).chr+start.slice(1)] = "s" }
     end
 
     # check intercepts bottom? hit wall bottom? if ok, place. else new postion, direction    
     if direction == "vertical" 
-      return if hit_wall_on_bottom?(size) || intersect_bottom?(size)
+      return false if hit_wall_on_bottom?(size) || intersect_bottom?(size)
       (0..size-1).each{|x| board.field[start.slice(0)+(start.slice(1).to_i+x).to_s] = "s" }
     end
+
   end
   
+  def place_all_ships
+    # SHIPS.each do |size| 
+    #   while !place_ship(size) 
+    #     try_again(size) 
+    #   end
+    end
+  end
+
+
   # Tells us if there are still ships that have not been hit
   # on her/his board.
   def has_ships_still_floating?
